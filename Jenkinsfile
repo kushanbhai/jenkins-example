@@ -1,32 +1,15 @@
 pipeline {
-    agent any
-
+    agent {
+         docker {
+            image '${myimage}'
+        }
+    }     
     stages {
-        stage ('Compile Stage') {
-
+         stage('Build') {
             steps {
-                withMaven(maven : 'maven_3_5_0') {
-                    sh 'mvn clean compile'
-                }
-            }
-        }
-
-        stage ('Testing Stage') {
-
-            steps {
-                withMaven(maven : 'maven_3_5_0') {
-                    sh 'mvn test'
-                }
-            }
-        }
-
-
-        stage ('Deployment Stage') {
-            steps {
-                withMaven(maven : 'maven_3_5_0') {
-                    sh 'mvn deploy'
-                }
-            }
-        }
+                checkout scm
+                sh 'mvn test'
+           }
+        }   
     }
-}
+}   
