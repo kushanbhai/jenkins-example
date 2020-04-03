@@ -1,15 +1,13 @@
 pipeline {
-    agent {
-         docker {
-            image '${myimage}'
-        }
-    }     
-    stages {
-         stage('build') {
-            steps {
-                checkout scm
-                sh 'mvn test'
-           }
-        }   
+    agent any
+    tools {
+        maven 'apache-maven-3.0.1' 
     }
-}   
+    stages {
+        stage('Example') {
+            steps {
+                sh 'mvn --version'
+            }
+        }
+    }
+}
